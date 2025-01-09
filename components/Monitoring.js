@@ -24,15 +24,25 @@ function Monitoring() {
 
         if (result && result.length > 0) {
           const latestData = result[0]; // Ambil data sensor terbaru
+          console.log('Latest data:', latestData);
+
           setData({
-            temperature: `${latestData.temperature} °C`,
-            humidity: `${latestData.humidity} %`,
-            waterDetection: latestData.water_detected
+            temperature: latestData.temperature
+              ? `${latestData.temperature} °C`
+              : 'No Data',
+            humidity: latestData.humidity
+              ? `${latestData.humidity} %`
+              : 'No Data',
+            waterDetection: latestData.water_sensor === true
               ? 'Water Detected'
-              : 'No Water Detected',
-            motionDetection: latestData.motion_detected
+              : latestData.water_sensor === false
+              ? 'No Water Detected'
+              : 'No Data Available',
+            motionDetection: latestData.motion_sensor === true
               ? 'Motion Detected'
-              : 'No Motion Detected',
+              : latestData.motion_sensor === false
+              ? 'No Motion Detected'
+              : 'No Data Available',
           });
         } else {
           throw new Error('Invalid or missing data in API response');
@@ -62,28 +72,44 @@ function Monitoring() {
         {/* Temperature */}
         <div className="card">
           <h3>Temperature</h3>
-          <img src="/temperature.jpg" alt="Temperature Sensor" className="sensor-image" />
+          <img
+            src="/temperature.jpg"
+            alt="Temperature Sensor"
+            className="sensor-image"
+          />
           <p>{data.temperature}</p>
         </div>
 
         {/* Humidity */}
         <div className="card">
           <h3>Humidity</h3>
-          <img src="/humidity.jpg" alt="Humidity Sensor" className="sensor-image" />
+          <img
+            src="/humidity.jpg"
+            alt="Humidity Sensor"
+            className="sensor-image"
+          />
           <p>{data.humidity}</p>
         </div>
 
         {/* Water Detection */}
         <div className="card">
           <h3>Water Detection</h3>
-          <img src="/water.jpg" alt="Water Sensor" className="sensor-image" />
+          <img
+            src="/water.jpg"
+            alt="Water Sensor"
+            className="sensor-image"
+          />
           <p>{data.waterDetection}</p>
         </div>
 
         {/* Motion Detection */}
         <div className="card">
           <h3>Motion Detection</h3>
-          <img src="/motion.jpg" alt="Motion Sensor" className="sensor-image" />
+          <img
+            src="/motion.jpg"
+            alt="Motion Sensor"
+            className="sensor-image"
+          />
           <p>{data.motionDetection}</p>
         </div>
       </div>
